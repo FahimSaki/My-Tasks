@@ -16,7 +16,7 @@ class DialogButton extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       //color: Theme.of(context).primaryColor,
-      color: Colors.yellow,
+      color: Colors.cyan,
       child: Text(text),
     );
   }

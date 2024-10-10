@@ -5,6 +5,7 @@ import 'package:my_tasks/data/database.dart';
 import 'package:my_tasks/util/dialog_box.dart';
 import 'package:my_tasks/util/todo_tile.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:audioplayers/audioplayers.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,10 @@ class _HomePageState extends State<HomePage> {
   // reference the Hive box
   final _myBox = Hive.box('mybox');
   ToDoDataBase db = ToDoDataBase();
+
+  // Create an instance of AudioPlayer
+  final AudioPlayer _audioPlayer = AudioPlayer();
+
   @override
   void initState() {
     // if this is the first time ever opening the app, the create preset data
@@ -27,6 +32,7 @@ class _HomePageState extends State<HomePage> {
       db.loadData();
     }
     super.initState();
+    _audioPlayer.setReleaseMode(ReleaseMode.stop);
   }
 
   // text controller
@@ -42,18 +48,45 @@ class _HomePageState extends State<HomePage> {
   void checkBoxChanged(bool? value, int index) {
     setState(() {
       db.toDoList[index][1] = !db.toDoList[index][1];
+
+      // Play sound if the task is marked as completed
+      if (db.toDoList[index][1] == true) {
+        _audioPlayer.play(AssetSource('assets/sounds/task_completed.mp3'));
+      }
     });
     db.updateDataBase();
   }
 
-  // save new task
+  /* save new task
   void saveNewTask() {
     setState(() {
       db.toDoList.add([_controller.text, false]);
       _controller.clear();
     });
     Navigator.of(context).pop;
-    //db.updateDataBase();
+    db.updateDataBase();
+  }*/
+
+  // save new task
+  void saveNewTask() {
+    String taskText = _controller.text.trim(); // Get trimmed input text
+    if (taskText.isEmpty) {
+      // Optionally show a message to the user
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Task cannot be empty!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return; // Exit the method early if the task is empty
+    }
+
+    setState(() {
+      db.toDoList.add([taskText, false]);
+      _controller.clear(); // Clear the input field after saving
+    });
+    Navigator.of(context).pop(); // Dismiss the dialog
+    db.updateDataBase(); // Update the database
   }
 
   // create a new task
@@ -62,10 +95,11 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         return DialogBox(
-          controller: _controller,
-          onSave: saveNewTask,
-          onCancel: () => Navigator.of(context).pop(),
-        );
+            controller: _controller,
+            onSave: saveNewTask,
+            onCancel: () {
+              Navigator.of(context).pop();
+            });
       },
     );
   }
@@ -81,10 +115,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.yellow[200],
+      backgroundColor: Colors.cyan[100],
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
-        title: Text('TO DO'),
+        backgroundColor: Colors.cyan[500],
+        title: Text(
+          'TO DO',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        ),
         centerTitle: true,
         elevation: 0,
       ),
@@ -92,7 +129,7 @@ class _HomePageState extends State<HomePage> {
         //shape:
         onPressed: createNewTask,
         child: Icon(Icons.add),
-        backgroundColor: Colors.yellow,
+        backgroundColor: Colors.cyan,
       ),
       body: ListView.builder(
         /*children: [

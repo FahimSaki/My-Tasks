@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:my_tasks/util/dialog_button.dart';
 
 class DialogBox extends StatelessWidget {
-  final controller;
+  final TextEditingController controller;
 
   VoidCallback onSave;
   VoidCallback onCancel;
@@ -19,7 +19,7 @@ class DialogBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.yellow[300],
+      backgroundColor: Colors.cyan[100],
       content: Container(
         height: 120,
         child: Column(children: [
