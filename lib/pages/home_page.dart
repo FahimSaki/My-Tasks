@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unused_field, sort_child_properties_last
-
 import 'package:flutter/material.dart';
-import 'package:my_tasks/data/database.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:my_tasks/util/dialog_box.dart';
 import 'package:my_tasks/util/todo_tile.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:my_tasks/data/database.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,85 +12,54 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // reference the Hive box
   final _myBox = Hive.box('mybox');
   ToDoDataBase db = ToDoDataBase();
 
-  // Create an instance of AudioPlayer
-  final AudioPlayer _audioPlayer = AudioPlayer();
-
   @override
   void initState() {
-    // if this is the first time ever opening the app, the create preset data
     if (_myBox.get("TODOLIST") == null) {
       db.createInitialData();
     } else {
-      //there already exists data
       db.loadData();
     }
     super.initState();
-    _audioPlayer.setReleaseMode(ReleaseMode.stop);
   }
 
-  // text controller
   final _controller = TextEditingController();
 
-  // checkbox was tapped
   void checkBoxChanged(bool? value, int index) {
     setState(() {
-      db.toDoList[index][1] = !db.toDoList[index][1];
-
-      // Play sound if the task is marked as completed
-      if (db.toDoList[index][1] == true) {
-        _audioPlayer.play(AssetSource('assets/sounds/task_completed.mp3'));
-      }
+      db.toggleTaskCompletion(index);
     });
-    db.updateDataBase();
   }
 
-  // save new task
   void saveNewTask() {
-    String taskText = _controller.text.trim(); // Get trimmed input text
-    if (taskText.isEmpty) {
-      // Optionally show a message to the user
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Task cannot be empty!'),
-          duration: Duration(seconds: 2),
-        ),
-      );
-      return; // Exit the method early if the task is empty
-    }
-
     setState(() {
-      db.toDoList.add([taskText, false]);
+      db.toDoList.add({"task": _controller.text, "completed": false});
       _controller.clear();
+      db.updateDataBase();
     });
     Navigator.of(context).pop();
-    db.updateDataBase(); // Update the database
   }
 
-  // create a new task
   void createNewTask() {
     showDialog(
       context: context,
       builder: (context) {
         return DialogBox(
-            controller: _controller,
-            onSave: saveNewTask,
-            onCancel: () {
-              Navigator.of(context).pop();
-            });
+          controller: _controller,
+          onSave: saveNewTask,
+          onCancel: () => Navigator.of(context).pop(),
+        );
       },
     );
   }
 
-  // delete task
   void deleteTask(int index) {
     setState(() {
       db.toDoList.removeAt(index);
+      db.updateDataBase();
     });
-    db.updateDataBase();
   }
 
   @override
@@ -102,25 +68,30 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.cyan[100],
       appBar: AppBar(
         backgroundColor: Colors.cyan[500],
-        title: Text(
+        title: const Text(
           'TO DO',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
         ),
-        centerTitle: true,
         elevation: 0,
+        centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        //shape:
-        onPressed: createNewTask,
-        child: Icon(Icons.add),
         backgroundColor: Colors.cyan,
+        elevation: 2,
+        onPressed: createNewTask,
+        child: const Icon(
+          Icons.add,
+          size: 35,
+          color: Colors.black,
+        ),
       ),
       body: ListView.builder(
         itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return ToDoTile(
-            taskName: db.toDoList[index][0],
-            taskCompleted: db.toDoList[index][1],
+            taskName: db.toDoList[index]['task'],
+            taskCompleted: db.toDoList[index]['completed'],
             onChanged: (value) => checkBoxChanged(value, index),
             deleteFunction: (context) => deleteTask(index),
           );

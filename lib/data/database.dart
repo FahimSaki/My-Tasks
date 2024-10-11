@@ -1,25 +1,42 @@
-// ignore_for_file: unused_field
-
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoDataBase {
-  List toDoList = [];
-  // reference the box
+  List<Map<String, dynamic>> toDoList = []; // Use a list of maps
   final _myBox = Hive.box('mybox');
 
-  // run this method if this is the first time ever opening the app
+  // Run this method if this is the first time ever opening the app
   void createInitialData() {
-    ["Add Some Tasks", true];
+    toDoList = [
+      {"task": "Add Some Tasks", "completed": false}
+    ];
+    updateDataBase(); // Save initial data
   }
 
-// load the data from database
-
+  // Load the data from the database
   void loadData() {
-    toDoList = _myBox.get("TODOLIST");
+    List<dynamic>? loadedData =
+        _myBox.get("TODOLIST") as List<dynamic>?; // Get data as List<dynamic>
+    if (loadedData != null) {
+      toDoList = List<Map<String, dynamic>>.from(loadedData.map((item) {
+        return Map<String, dynamic>.from(
+            item); // Convert each item to Map<String, dynamic>
+      }));
+    }
   }
 
-// update the database
+  // Toggle the completion status of a task
+  void toggleTaskCompletion(int index) {
+    toDoList[index]['completed'] = !toDoList[index]['completed'];
+    // Move completed tasks to the end of the list
+    toDoList.sort((a, b) {
+      if (a['completed'] == b['completed'])
+        return 0; // Keep original order for non-completed tasks
+      return a['completed'] ? 1 : -1; // Move completed tasks to the end
+    });
+    updateDataBase();
+  }
 
+  // Update the database
   void updateDataBase() {
     _myBox.put("TODOLIST", toDoList);
   }
