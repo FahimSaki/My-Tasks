@@ -26,9 +26,15 @@ class DialogBox extends StatelessWidget {
           // get user inputs
           TextField(
             controller: controller,
+            style: TextStyle(
+              color: Colors.black,
+            ),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Add a new task",
+              hintStyle: TextStyle(color: Colors.black),
+              fillColor: Colors.white,
+              filled: true, // Makes the hint text background white
             ),
           ),
 

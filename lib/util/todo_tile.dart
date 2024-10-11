@@ -35,14 +35,14 @@ class ToDoTile extends StatelessWidget {
         ),
         child: Container(
           padding: const EdgeInsets.all(24),
-          //child: Text('Make Tutorials'),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: const Color.fromARGB(255, 73, 150, 150),
+            //color: Colors.amber,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
-              // checkbox with blurred circle
+              // Checkbox with blurred circle
               Padding(
                 padding: const EdgeInsets.only(right: 3.0),
                 child: Stack(
@@ -53,30 +53,47 @@ class ToDoTile extends StatelessWidget {
                         size: Size(24.0, 24.0),
                         painter: BlurredCirclePainter(
                           blurRadius:
-                              10, // Adjust blur based on task completion
+                              20, // Adjust blur based on task completion
                         ),
                       ),
-                    //Opacity(
-                    //opacity: taskCompleted ? 1.0 : 0,
-                    Checkbox(
-                      value: taskCompleted,
-                      onChanged: onChanged,
-                      activeColor: Colors.black45,
-                      checkColor: Colors.white,
-                      shape: CircleBorder(),
+                    GestureDetector(
+                      onTap: () => onChanged!(!taskCompleted),
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: Colors.white,
+                            width: 2.0,
+                          ),
+                          color: taskCompleted
+                              ? Colors.black45
+                              : Colors.transparent,
+                        ),
+                        child: Icon(
+                          taskCompleted ? Icons.check : null,
+                          size: 18.0,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ],
                 ),
               ),
-
-              // task name
-              //Text('Make Tutorials'),
-              Text(
-                taskName,
-                style: TextStyle(
-                  decoration: taskCompleted
-                      ? TextDecoration.lineThrough
-                      : TextDecoration.none,
+              SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  taskName,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    decoration: taskCompleted
+                        ? TextDecoration.lineThrough
+                        : TextDecoration.none,
+                  ),
+                  softWrap: true, // softwrap and overflow to fix text overflow
+                  overflow: TextOverflow.visible,
                 ),
               ),
             ],

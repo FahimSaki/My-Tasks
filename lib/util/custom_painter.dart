@@ -12,7 +12,7 @@ class BlurredCirclePainter extends CustomPainter {
     // Create a paint object with blur
     Paint paint = Paint()
       ..color =
-          Colors.black.withOpacity(0.3) // Set desired opacity for the blur
+          Colors.black.withOpacity(0.8) // Set desired opacity for the blur
       ..maskFilter = MaskFilter.blur(BlurStyle.normal, blurRadius);
 
     // Draw a blurred circle centered at the same point as the checkbox

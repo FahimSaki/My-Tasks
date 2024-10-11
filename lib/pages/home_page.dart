@@ -38,12 +38,6 @@ class _HomePageState extends State<HomePage> {
   // text controller
   final _controller = TextEditingController();
 
-  // List of todo tasks
-  //List toDoList = [
-  //["Make Tutorial", false],
-  //["Do Exercise", false],
-  //];
-
   // checkbox was tapped
   void checkBoxChanged(bool? value, int index) {
     setState(() {
@@ -56,16 +50,6 @@ class _HomePageState extends State<HomePage> {
     });
     db.updateDataBase();
   }
-
-  /* save new task
-  void saveNewTask() {
-    setState(() {
-      db.toDoList.add([_controller.text, false]);
-      _controller.clear();
-    });
-    Navigator.of(context).pop;
-    db.updateDataBase();
-  }*/
 
   // save new task
   void saveNewTask() {
@@ -83,9 +67,9 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       db.toDoList.add([taskText, false]);
-      _controller.clear(); // Clear the input field after saving
+      _controller.clear();
     });
-    Navigator.of(context).pop(); // Dismiss the dialog
+    Navigator.of(context).pop();
     db.updateDataBase(); // Update the database
   }
 
@@ -132,13 +116,6 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.cyan,
       ),
       body: ListView.builder(
-        /*children: [
-          ToDoTile(
-            taskName: "Do Exerxcise",
-            taskCompleted: true,
-            onChanged: (p0) {},
-          ),
-        ],*/
         itemCount: db.toDoList.length,
         itemBuilder: (context, index) {
           return ToDoTile(
