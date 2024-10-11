@@ -18,8 +18,10 @@ class ToDoDataBase {
         _myBox.get("TODOLIST") as List<dynamic>?; // Get data as List<dynamic>
     if (loadedData != null) {
       toDoList = List<Map<String, dynamic>>.from(loadedData.map((item) {
-        return Map<String, dynamic>.from(
-            item); // Convert each item to Map<String, dynamic>
+        return {
+          "task": item["task"],
+          "completed": item["completed"],
+        };
       }));
     }
   }

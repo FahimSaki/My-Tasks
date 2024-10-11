@@ -55,6 +55,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // Toggle task completion
+  void toggleTaskCompletion(int index) {
+    setState(() {
+      db.toggleTaskCompletion(index);
+    });
+  }
+
   void deleteTask(int index) {
     setState(() {
       db.toDoList.removeAt(index);
