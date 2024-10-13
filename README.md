@@ -12,7 +12,7 @@ Welcome to the **My Tasks** app! This is a simple and intuitive to-do list appli
 
 ## Screenshots 📸
 ![Home Page](assets/screenshots/p1.png)
-![Splash Screen](assets/images/splash_screen.png)
+![Adding Tasks](assets/screenshots/p2.png)
 
 ## Tech Stack 💻
 - **Flutter**: The framework used to build the app.
