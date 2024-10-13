@@ -1,16 +1,27 @@
-# my_tasks
+# My Tasks App 🎯
 
-A new Flutter project.
+![Logo](assets/images/logo.png)
 
-## Getting Started
+Welcome to the **My Tasks** app! This is a simple and intuitive to-do list application built with Flutter. Keep track of your tasks efficiently and stay organized! 🗂️
 
-This project is a starting point for a Flutter application.
+## Features ✨
+- **Add Tasks**: Quickly add new tasks with ease. 📝
+- **Complete Tasks**: Mark tasks as completed by tapping the checkbox. ✅
+- **Delete Tasks**: Swipe to delete tasks you no longer need. ❌
+- **Audio Feedback**: Enjoy sound notifications for completed and deleted tasks. 🔊
 
-A few resources to get you started if this is your first Flutter project:
+## Tech Stack 💻
+- **Flutter**: The framework used to build the app.
+- **Hive**: For local data storage.
+- **Audioplayers**: To play sounds.
+- **Flutter Slidable**: For swipe actions on tasks.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Getting Started 🚀
+To get a local copy up and running, follow these simple steps:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/FahimSaki/My-Tasks.git
+
+## Author 💬 
+℗ by Fahim Saki
