@@ -1,34 +1,28 @@
-# My Tasks App
+# My Tasks App 🎯
 
-## Overview
+![Logo](assets/images/logo.png)
 
-"My Tasks" is a simple and intuitive task management application built with Flutter. The app allows users to create, manage, and delete tasks efficiently. With a clean interface and smooth interactions, "My Tasks" is designed to help you stay organized and productive.
+Welcome to the **My Tasks** app! This is a simple and intuitive to-do list application built with Flutter. Keep track of your tasks efficiently and stay organized! 🗂️
 
-## Features
+## Features ✨
+- **Add Tasks**: Quickly add new tasks with ease. 📝
+- **Complete Tasks**: Mark tasks as completed by tapping the checkbox. ✅
+- **Delete Tasks**: Swipe to delete tasks you no longer need. ❌
+- **Audio Feedback**: Enjoy sound notifications for completed and deleted tasks. 🔊
 
-- **Task Creation**: Easily add new tasks using an intuitive dialog interface.
-- **Task Management**: Mark tasks as completed or delete them as needed.
-- **Persistent Storage**: Utilizes Hive for local data storage, ensuring your tasks are saved even after closing the app.
-- **Audio Feedback**: Enjoy audio cues for task completion and deletion for a more engaging user experience.
-- **Beautiful UI**: A clean, modern design with a focus on usability and aesthetics.
+## Screenshots 📸
+![Home Page](assets/images/home_page.png)
+![Splash Screen](assets/images/splash_screen.png)
 
-## Technologies Used
+## Tech Stack 💻
+- **Flutter**: The framework used to build the app.
+- **Hive**: For local data storage.
+- **Audioplayers**: To play sounds.
+- **Flutter Slidable**: For swipe actions on tasks.
 
-- **Flutter**: The UI framework for building natively compiled applications for mobile, web, and desktop from a single codebase.
-- **Hive**: A lightweight and fast key-value database for Flutter applications.
-- **Audioplayers**: A package for playing audio files in Flutter apps.
-
-## Getting Started
-
-To get a copy of the "My Tasks" app up and running on your local machine for development and testing purposes, follow these steps:
-
-### Prerequisites
-
-Make sure you have Flutter installed on your machine. You can follow the official [Flutter installation guide](https://flutter.dev/docs/get-started/install) to set up Flutter.
-
-### Installation
+## Getting Started 🚀
+To get a local copy up and running, follow these simple steps:
 
 1. **Clone the repository**:
-
    ```bash
-   git clone https://github.com/FahimSaki/My-Tasks.git
+   git clone https://github.com/yourusername/My-Tasks.git
