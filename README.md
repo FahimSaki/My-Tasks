@@ -11,7 +11,7 @@ Welcome to the **My Tasks** app! This is a simple and intuitive to-do list appli
 - **Audio Feedback**: Enjoy sound notifications for completed and deleted tasks. 🔊
 
 ## Screenshots 📸
-![Home Page](assets/images/home_page.png)
+![Home Page](https://drive.google.com/file/d/1CjNBXKNgbFMRZqRZ3XuZPGXBEsU1xyHh/view?usp=drive_link)
 ![Splash Screen](assets/images/splash_screen.png)
 
 ## Tech Stack 💻
