@@ -27,5 +27,5 @@ To get a local copy up and running, follow these simple steps:
    ```bash
    git clone https://github.com/yourusername/My-Tasks.git
    
-Author 💬 
+## Author 💬 
 ℗ by Fahim Saki
