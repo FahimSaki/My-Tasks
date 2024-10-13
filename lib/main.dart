@@ -7,6 +7,7 @@ import 'package:my_tasks/pages/splash_screen.dart';
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox('mybox');
+
   runApp(MyApp());
 }
 

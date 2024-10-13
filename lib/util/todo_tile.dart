@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -7,8 +7,10 @@ import 'package:my_tasks/util/custom_painter.dart';
 class ToDoTile extends StatelessWidget {
   final String taskName;
   final bool taskCompleted;
-  Function(bool?)? onChanged;
-  Function(BuildContext)? deleteFunction;
+  Function(bool?)? onChanged; // Callback function when checkbox is toggled
+  Function(BuildContext)?
+      deleteFunction; // Callback function for deleting the task
+
   ToDoTile({
     super.key,
     required this.taskName,
@@ -20,16 +22,18 @@ class ToDoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 25.0, right: 25.0, top: 25.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 12.5),
       child: Slidable(
+        // Slidable widget for swipe actions
         endActionPane: ActionPane(
-          motion: StretchMotion(),
+          motion: StretchMotion(), // Animation for the action pane
           children: [
             SlidableAction(
-              onPressed: deleteFunction,
+              onPressed: deleteFunction, // Callback to delete the task
               icon: Icons.delete,
               backgroundColor: Colors.red.shade300,
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(
+                  12), // Rounded corners for the action button
             ),
           ],
         ),
@@ -37,27 +41,27 @@ class ToDoTile extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           decoration: BoxDecoration(
             color: const Color.fromARGB(255, 73, 150, 150),
-            //color: Colors.amber,
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
             children: [
-              // Checkbox with blurred circle
+              // Checkbox and task completion visual indicator
               Padding(
                 padding: const EdgeInsets.only(right: 3.0),
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
+                    // Blur effect when the task is completed
                     if (taskCompleted)
                       CustomPaint(
                         size: Size(24.0, 24.0),
                         painter: BlurredCirclePainter(
-                          blurRadius:
-                              20, // Adjust blur based on task completion
+                          blurRadius: 20,
                         ),
                       ),
                     GestureDetector(
-                      onTap: () => onChanged!(!taskCompleted),
+                      onTap: () => onChanged!(
+                          !taskCompleted), // Toggle task completion on tap
                       child: Container(
                         width: 24,
                         height: 24,
@@ -72,7 +76,9 @@ class ToDoTile extends StatelessWidget {
                               : Colors.transparent,
                         ),
                         child: Icon(
-                          taskCompleted ? Icons.check : null,
+                          taskCompleted
+                              ? Icons.check
+                              : null, // Show checkmark if completed
                           size: 18.0,
                           color: Colors.white,
                         ),
@@ -82,6 +88,7 @@ class ToDoTile extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10),
+              // Task name display
               Expanded(
                 child: Text(
                   taskName,
@@ -92,7 +99,7 @@ class ToDoTile extends StatelessWidget {
                         ? TextDecoration.lineThrough
                         : TextDecoration.none,
                   ),
-                  softWrap: true, // softwrap and overflow to fix text overflow
+                  softWrap: true,
                   overflow: TextOverflow.visible,
                 ),
               ),

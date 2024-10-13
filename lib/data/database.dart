@@ -31,9 +31,11 @@ class ToDoDataBase {
     toDoList[index]['completed'] = !toDoList[index]['completed'];
     // Move completed tasks to the end of the list
     toDoList.sort((a, b) {
-      if (a['completed'] == b['completed'])
+      if (a['completed'] == b['completed']) {
         return 0; // Keep original order for non-completed tasks
-      return a['completed'] ? 1 : -1; // Move completed tasks to the end
+      } else {
+        return a['completed'] ? 1 : -1;
+      } // Move completed tasks to the end
     });
     updateDataBase();
   }
