@@ -1,26 +1,27 @@
-// ignore_for_file: prefer_const_constructors, unused_local_variable, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
+import 'package:my_tasks/pages/home_page.dart';
+import 'package:my_tasks/util/mongo_service.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:my_tasks/pages/splash_screen.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await Hive.openBox('mybox');
-
-  runApp(MyApp());
+  await MongoService.connect(); // Initialize MongoDB connection
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'My Tasks',
-      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
+        primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home: const HomePage(),
     );
   }
 }

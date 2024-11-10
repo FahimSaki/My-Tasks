@@ -4,6 +4,7 @@ import 'package:my_tasks/util/dialog_box.dart';
 import 'package:my_tasks/util/todo_tile.dart';
 import 'package:my_tasks/data/database.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:my_tasks/util/mongo_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -35,10 +36,22 @@ class _HomePageState extends State<HomePage> {
       // Load existing data
       db.loadData();
     }
+    // Load tasks from MongoDB
+    _loadTasksFromMongo();
+  }
+
+  // Method to load tasks from MongoDB
+  Future<void> _loadTasksFromMongo() async {
+    var tasks = await MongoService.fetchTasks();
+    setState(() {
+      db.toDoList = tasks.map((task) {
+        return {"task": task["task"], "completed": task["completed"]};
+      }).toList();
+    });
   }
 
   // Method to handle checkbox change
-  void _checkBoxChanged(bool? value, int index) {
+  void _checkBoxChanged(bool? value, int index) async {
     setState(() {
       db.toggleTaskCompletion(index);
       // Play sound if task is completed
@@ -46,16 +59,21 @@ class _HomePageState extends State<HomePage> {
         _audioPlayer.play(AssetSource('sounds/task_completed.mp3'));
       }
     });
+    // Update task in MongoDB
+    await MongoService.updateTask(db.toDoList[index]);
   }
 
   // Method to save a new task
-  void _saveNewTask() {
+  void _saveNewTask() async {
     if (_controller.text.isNotEmpty) {
+      var newTask = {"task": _controller.text, "completed": false};
       setState(() {
-        db.addTask({"task": _controller.text, "completed": false});
+        db.addTask(newTask);
         _controller.clear();
       });
       Navigator.of(context).pop();
+      // Insert task into MongoDB
+      await MongoService.insertTask(newTask);
     }
   }
 
@@ -74,11 +92,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Method to delete a task
-  void _deleteTask(int index) {
+  void _deleteTask(int index) async {
+    var taskToDelete = db.toDoList[index]["task"];
     setState(() {
       db.deleteTask(index);
       _audioPlayer.play(AssetSource('sounds/task_deleted.mp3'));
     });
+    // Delete task from MongoDB
+    await MongoService.deleteTask(taskToDelete);
   }
 
   @override

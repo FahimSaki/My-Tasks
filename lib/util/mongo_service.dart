@@ -5,26 +5,54 @@ class MongoService {
   static DbCollection? _collection;
 
   static Future<void> connect() async {
-    _db = Db(
-        'mongodb+srv://gabrielbelmont:9cOkUqfpF4tOqDYW@cluster0.baiqv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/user/test'); // error schema
-    await _db!.open();
-    _collection = _db!.collection('todo_tasks');
+    try {
+      String connectionString =
+          'mongodb+srv://gabrielbelmont:9cOkUqfpF4tOqDYW@cluster0.baiqv.mongodb.net/todo_app?retryWrites=true&w=majority';
+      _db = Db(connectionString);
+      await _db!.open();
+      _collection = _db!.collection('todo_tasks');
+      print("MongoDB connected");
+    } catch (e) {
+      print("Error connecting to MongoDB: $e");
+    }
   }
 
   static Future<void> insertTask(Map<String, dynamic> task) async {
-    await _collection!.insert(task);
+    try {
+      await _collection!.insert(task);
+      print("Task inserted");
+    } catch (e) {
+      print("Error inserting task: $e");
+    }
   }
 
   static Future<List<Map<String, dynamic>>> fetchTasks() async {
-    return await _collection!.find().toList();
+    try {
+      return await _collection!.find().toList();
+    } catch (e) {
+      print("Error fetching tasks: $e");
+      return [];
+    }
   }
 
   static Future<void> updateTask(Map<String, dynamic> task) async {
-    await _collection!.update(where.eq('task', task['task']),
-        modify.set('completed', task['completed']));
+    try {
+      await _collection!.update(
+        where.eq('task', task['task']),
+        modify.set('completed', task['completed']),
+      );
+      print("Task updated");
+    } catch (e) {
+      print("Error updating task: $e");
+    }
   }
 
   static Future<void> deleteTask(String taskName) async {
-    await _collection!.remove(where.eq('task', taskName));
+    try {
+      await _collection!.remove(where.eq('task', taskName));
+      print("Task deleted");
+    } catch (e) {
+      print("Error deleting task: $e");
+    }
   }
 }
