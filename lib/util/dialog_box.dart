@@ -52,6 +52,8 @@ class DialogBox extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Task cannot be empty'),
+                        behavior: SnackBarBehavior.floating,
+                        showCloseIcon: true,
                       ),
                     );
                   }

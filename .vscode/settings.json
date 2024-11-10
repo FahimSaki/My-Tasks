@@ -1,5 +1,6 @@
 {
     "java.compile.nullAnalysis.mode": "automatic",
-    "cmake.ignoreCMakeListsMissing": true,
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "cmake.ignoreCMakeListsMissing": false,
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "cmake.sourceDirectory": "D:/Workstation/CodeBench/Flutter_Projects/my_tasks/windows"
 }
