@@ -6,7 +6,7 @@ class MongoService {
 
   static Future<void> connect() async {
     _db = Db(
-        'mongodb+srv://gabrielbelmont:9cOkUqfpF4tOqDYW@cluster0.baiqv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/user/test');
+        'mongodb+srv://gabrielbelmont:9cOkUqfpF4tOqDYW@cluster0.baiqv.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/user/test'); // error schema
     await _db!.open();
     _collection = _db!.collection('todo_tasks');
   }
