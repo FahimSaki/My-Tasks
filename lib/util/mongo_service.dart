@@ -6,23 +6,22 @@ class MongoService {
 
   static Future<void> connect() async {
     try {
-      String connectionString =
-          'mongodb+srv://gabrielbelmont:9cOkUqfpF4tOqDYW@cluster0.baiqv.mongodb.net/todo_app?retryWrites=true&w=majority';
+      String connectionString = '';
       _db = Db(connectionString);
       await _db!.open();
       _collection = _db!.collection('todo_tasks');
-      print("MongoDB connected");
+      // print("MongoDB connected");
     } catch (e) {
-      print("Error connecting to MongoDB: $e");
+      // print("Error connecting to MongoDB: $e");
     }
   }
 
   static Future<void> insertTask(Map<String, dynamic> task) async {
     try {
       await _collection!.insert(task);
-      print("Task inserted");
+      // print("Task inserted");
     } catch (e) {
-      print("Error inserting task: $e");
+      // print("Error inserting task: $e");
     }
   }
 
@@ -30,7 +29,7 @@ class MongoService {
     try {
       return await _collection!.find().toList();
     } catch (e) {
-      print("Error fetching tasks: $e");
+      // print("Error fetching tasks: $e");
       return [];
     }
   }
@@ -41,18 +40,18 @@ class MongoService {
         where.eq('task', task['task']),
         modify.set('completed', task['completed']),
       );
-      print("Task updated");
+      // print("Task updated");
     } catch (e) {
-      print("Error updating task: $e");
+      //print("Error updating task: $e");
     }
   }
 
   static Future<void> deleteTask(String taskName) async {
     try {
       await _collection!.remove(where.eq('task', taskName));
-      print("Task deleted");
+      // print("Task deleted");
     } catch (e) {
-      print("Error deleting task: $e");
+      // print("Error deleting task: $e");
     }
   }
 }
