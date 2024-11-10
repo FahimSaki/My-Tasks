@@ -1,21 +1,26 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:my_tasks/util/mongo_service.dart';
 
 class ToDoDataBase {
-  List<Map<String, dynamic>> toDoList = []; // Use a list of maps
+  List<Map<String, dynamic>> toDoList = [];
   final _myBox = Hive.box('mybox');
 
-  // Run this method if this is the first time ever opening the app
+  // Connect to mongodb
+  ToDoDataBase() {
+    MongoService.connect();
+  }
+
   void createInitialData() {
     toDoList = [
       {"task": "Add Some Tasks", "completed": false}
     ];
     updateDataBase(); // Save initial data
+    syncWithRemote(); // Save data in mongodb
   }
 
-  // Load the data from the database
-  void loadData() {
-    List<dynamic>? loadedData =
-        _myBox.get("TODOLIST") as List<dynamic>?; // Get data as List<dynamic>
+  // Load data from local and mongodb
+  void loadData() async {
+    List<dynamic>? loadedData = _myBox.get("TODOLIST");
     if (loadedData != null) {
       toDoList = List<Map<String, dynamic>>.from(loadedData.map((item) {
         return {
@@ -24,24 +29,49 @@ class ToDoDataBase {
         };
       }));
     }
+    await loadRemoteData();
   }
 
-  // Toggle the completion status of a task
-  void toggleTaskCompletion(int index) {
+  void toggleTaskCompletion(int index) async {
     toDoList[index]['completed'] = !toDoList[index]['completed'];
-    // Move completed tasks to the end of the list
     toDoList.sort((a, b) {
       if (a['completed'] == b['completed']) {
-        return 0; // Keep original order for non-completed tasks
+        return 0;
       } else {
         return a['completed'] ? 1 : -1;
-      } // Move completed tasks to the end
+      }
     });
+    updateDataBase();
+    await MongoService.updateTask(toDoList[index]);
+  }
+
+  // Update the database local and remote
+  void updateDataBase() {
+    _myBox.put("TODOLIST", toDoList);
+  }
+
+  void addTask(Map<String, dynamic> task) async {
+    toDoList.add(task);
+    updateDataBase();
+    await MongoService.insertTask(task);
+  }
+
+  void deleteTask(int index) async {
+    String taskName = toDoList[index]['task'];
+    toDoList.removeAt(index);
+    updateDataBase();
+    await MongoService.deleteTask(taskName);
+  }
+
+  Future<void> loadRemoteData() async {
+    List<Map<String, dynamic>> remoteTasks = await MongoService.fetchTasks();
+    toDoList = remoteTasks;
     updateDataBase();
   }
 
-  // Update the database
-  void updateDataBase() {
-    _myBox.put("TODOLIST", toDoList);
+  Future<void> syncWithRemote() async {
+    for (var task in toDoList) {
+      await MongoService.insertTask(task);
+    }
   }
 }

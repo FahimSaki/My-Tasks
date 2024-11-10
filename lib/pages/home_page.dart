@@ -52,14 +52,9 @@ class _HomePageState extends State<HomePage> {
   void _saveNewTask() {
     if (_controller.text.isNotEmpty) {
       setState(() {
-        // Add new task to the list
-        db.toDoList.add({"task": _controller.text, "completed": false});
-        // Clear the text field
+        db.addTask({"task": _controller.text, "completed": false});
         _controller.clear();
-        // Update the database
-        db.updateDataBase();
       });
-      // Close the dialog
       Navigator.of(context).pop();
     }
   }
@@ -81,11 +76,7 @@ class _HomePageState extends State<HomePage> {
   // Method to delete a task
   void _deleteTask(int index) {
     setState(() {
-      // Remove task from the list
-      db.toDoList.removeAt(index);
-      // Update the database
-      db.updateDataBase();
-      // Play sound on task deletion
+      db.deleteTask(index);
       _audioPlayer.play(AssetSource('sounds/task_deleted.mp3'));
     });
   }
