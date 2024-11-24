@@ -3,7 +3,7 @@
 ![Logo](assets/images/logo.png)
 
 
-Transform your productivity with our streamlined ***My Tasks*** app! Designed with a focus on efficiency and simplicity, it eliminates unnecessary distractions and highlights the essentials. Create and manage tasks seamlessly in an aesthetically pleasing, user-friendly interface. Achieve more with less effort—perfect for getting things done without the clutter. 🗂️
+Transform your productivity with our streamlined ****My Tasks**** app! Designed with a focus on efficiency and simplicity, it eliminates unnecessary distractions and highlights the essentials. Create and manage tasks seamlessly in an aesthetically pleasing, user-friendly interface. Achieve more with less effort—perfect for getting things done without the clutter. 🗂️
 
 ## Features ✨
 - **Add Tasks**: Quickly add new tasks with ease. 📝
